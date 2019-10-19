@@ -529,15 +529,15 @@
 		if (isset($_REQUEST['query'])) {
 			$query = $_REQUEST['query'];
 		} else {
-			$query = "SELECT * FROM {$_REQUEST['schema']}";
+			$query = "SELECT * FROM ".pg_escape_identifier($_REQUEST['schema']);
 			if ($_REQUEST['subject'] == 'view') {
-				$query = "{$query}.{$_REQUEST['view']};";
+				$query = "{$query}.".pg_escape_identifier($_REQUEST['view']).";";
 			} else {
-				$query = "{$query}.{$_REQUEST['table']};";
+				$query = "{$query}.".pg_escape_identifier($_REQUEST['table']).";";
 			}
 		}
 		//$query = isset($_REQUEST['query'])? $_REQUEST['query'] : "select * from {$_REQUEST['schema']}.{$_REQUEST['table']};";
-		echo $query;
+		echo htmlspecialchars($query);
 		echo '</textarea><br><input type="submit"/></form>';
 
 		if (is_object($rs) && $rs->recordCount() > 0) {

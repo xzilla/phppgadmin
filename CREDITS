@@ -90,19 +90,12 @@ Third Party Libraries
 Corporate Sponsors
 
 Project resources:
-- github.com - Official project home  
-- Kattare Internet (http://www.kattare.com/) - Hosting the demo server
-- Sourceforge.net - Hosting, Source Package Provider, Legacy project services (Bug/Feature Tracker, mailing lists, code repository)
+- Github => Official project home  
 
-Ongoing contributors:
-
-- OmniTI ( https://omniti.com ) - sponsors developpment as Robert Treat employer
-
-Feature contributors:
-
+Past Feature Sponsors:
 - SpikeSource (www.spikesource.com) - Slony support
 - Google Summer of Code (http://code.google.com/soc/2006/pgsql/appinfo.html?csaid=DB096D908B948D89) - phpPgAdmin Improvements
 - Google Summer of Code (http://code.google.com/soc/2007/postgres/appinfo.html?csaid=E89B3D5E2DC4170A) - Full Text Search in PostgreSQL GUI Tools
 - Google Summer of Code (http://code.google.com/p/google-summer-of-code-2010-postgres/downloads/detail?name=Leonardo_Augusto_Sapiras.tar.gz) - Improve phpPgAdmin ergonomy
 - Dalibo ( http://dalibo.com ) - sponsored development as Jehan-Guillaume (ioguix) de Rorthais employer
-
+- OmniTI (https://omniti.com ) - sponsored development as Robert Treat employer 

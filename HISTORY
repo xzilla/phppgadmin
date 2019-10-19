@@ -1,6 +1,34 @@
 phpPgAdmin History
 ------------------
 
+Version 7.12.1
+--------------
+
+Bugs: 
+* Remove broken tree branch from table/view browse option
+* Properly escape identifiers when browsing tables/views/schemas
+
+
+Version 7.12.0 
+--------------
+
+Released: September 28, 2019 
+
+Features
+* Add Support for PHP 7.x 
+* Add Support for Postgres 12
+* Update Bootstrap to version 3.3.7 (wisekeep)
+
+Bugs:
+* Fix several issues with CSS files (wisekeep)
+* Clean up file permissions (nirgal) 
+* Fixed Reflected XSS vulnerability (om3rcitak)
+* Fixes with sequence visbility and permission handling.
+
+Incompatabilities:
+* We no longer support php5  
+* Change in version numbering system
+
 Version 5.6
 -----------
 
