@@ -177,7 +177,8 @@
 	$lang['strnoframes'] = 'This application works best with a frames-enabled browser, but can be used without frames by following the link below.';
 	$lang['strnoframeslink'] = 'Use without frames';
 	$lang['strbadconfig'] = 'Your config.inc.php is out of date. You will need to regenerate it from the new config.inc.php-dist.';
-	$lang['strnotloaded'] = 'Your PHP installation does not support PostgreSQL. You need to recompile PHP using the --with-pgsql configure option.';
+	$lang['strlibnotfound'] = 'Your PHP installation does not support the %s module. You will need to install, enable, or compile it to use phpPgAdmin.';
+	$lang['strlibnotfound_plural'] = 'Your PHP installation does not support the %s modules. You will need to install, enable, or compile them to use phpPgAdmin.';
 	$lang['strpostgresqlversionnotsupported'] = 'Version of PostgreSQL not supported. Please upgrade to version %s or later.';
 	$lang['strbadschema'] = 'Invalid schema specified.';
 	$lang['strbadencoding'] = 'Failed to set client encoding in database.';
