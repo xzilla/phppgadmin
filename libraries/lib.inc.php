@@ -208,9 +208,19 @@
 		exit;
 	}
 
-	// Check database support is properly compiled in
-	if (!function_exists('pg_connect')) {
-		echo $lang['strnotloaded'];
+	// Check php libraries
+	$php_libraries_requirements = [
+		// required_function => name_of_the_php_library
+		'pg_connect' => 'pgsql',
+		'mb_strlen' => 'mbstring'];
+	$missing_libraries = [];
+	foreach($php_libraries_requirements as $funcname => $lib)
+		if (!function_exists($funcname))
+			$missing_libraries[] = $lib;
+	if ($missing_libraries) {
+		$missing_list = implode(', ', $missing_libraries);
+		$error_missing_template_string = count($missing_libraries) <= 1 ? $lang['strlibnotfound'] : $lang['strlibnotfound_plural'];
+		printf($error_missing_template_string, $missing_list);
 		exit;
 	}
 
