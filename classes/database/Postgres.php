@@ -1737,7 +1737,7 @@ class Postgres extends ADODB_base {
 	 *			'table' => table name,
 	 *			'schema' => the schema name,
 	 *		)
-	 * @param $defaults if true, copy the defaults values as well
+	 * @param $defaults if true, copy the default values as well
 	 * @param $constraints if true, copy the constraints as well (CHECK on table & attr)
 	 * @param $tablespace The tablespace name ('' means none/default)
 	 */
@@ -2366,7 +2366,7 @@ class Postgres extends ADODB_base {
 	
 	/**
 	 * Returns all available autovacuum per table information.
-	 * @param $table if given, return autovacuum info for the given table or return all information for all table
+	 * @param $table if given, return autovacuum info for the given table or return all information for all tables
 	 *   
 	 * @return A recordset
 	 */
