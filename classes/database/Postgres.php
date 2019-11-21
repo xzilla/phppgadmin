@@ -1039,19 +1039,7 @@ class Postgres extends ADODB_base {
 	 * @return null error
 	 **/
 	function hasObjectID($table) {
-		$c_schema = $this->_schema;
-		$this->clean($c_schema);
-		$this->clean($table);
-
-		$sql = "SELECT relhasoids FROM pg_catalog.pg_class WHERE relname='{$table}'
-			AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname='{$c_schema}')";
-
-		$rs = $this->selectSet($sql);
-		if ($rs->recordCount() != 1) return null;
-		else {
-			$rs->fields['relhasoids'] = $this->phpBool($rs->fields['relhasoids']);
-			return $rs->fields['relhasoids'];
-		}
+		return false; 
 	}
 
 	/**
@@ -1694,10 +1682,13 @@ class Postgres extends ADODB_base {
 		$sql .= ")";
 
 		// WITHOUT OIDS
-		if ($withoutoids)
-			$sql .= ' WITHOUT OIDS';
-		else
-			$sql .= ' WITH OIDS';
+		if ($this->hasServerOIDS()){
+
+			if ($withoutoids)
+				$sql .= ' WITHOUT OIDS';
+			else
+				$sql .= ' WITH OIDS';
+		}
 
 		// Tablespace
 		if ($this->hasTablespaces() && $tablespace != '') {
@@ -8082,6 +8073,7 @@ class Postgres extends ADODB_base {
 	function hasConcurrentIndexBuild() { return true; }
 	function hasForceReindex() { return false; }
 	function hasByteaHexDefault() { return true; } 
+	function hasServerOIDS() { return false; } 
 	
 }
 ?>
